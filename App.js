@@ -1,10 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Login from "./components/Login";
-import Component from "./components/LocationComp";
+import BFetch from "./components/BackgroundLocationComp";
+import TestLoc from "./components/testLoc";
 export default function App() {
-  return <Component />;
+  return <TestLoc />;
 }
 
 const styles = StyleSheet.create({
