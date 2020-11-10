@@ -1,11 +1,10 @@
 import React from "react";
-import { Button, View, AppState } from "react-native";
+import { Button, View, StyleSheet } from "react-native";
 import * as TaskManager from "expo-task-manager";
 import * as Location from "expo-location";
 
 const LOCATION_TASK_NAME = "bg-location";
-TaskManager.defineTask(LOCATION_TASK_NAME,({ data, error }) => {
- 
+TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
   if (error) {
     console.log("Error in Location Fetch Task");
     return;
@@ -63,3 +62,9 @@ export default class TestLoc extends React.Component {
     );
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+  },
+});
