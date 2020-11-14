@@ -6,11 +6,20 @@ import * as TaskManager from "expo-task-manager";
 import * as Location from "expo-location";
 import * as firebase from "firebase";
 const LOCATION_TASK_NAME = "bg-location";
-
 export default class TestLoc extends React.Component {
   async componentDidMount() {
     this.getLocationasyc();
     this.getLoctionServiceStat();
+  }
+  static async updateLocation(location) {
+    console.log("updated location");
+    const currentUser = await firebase.auth().currentUser;
+    firebase
+      .database()
+      .ref("/users/" + currentUser.uid)
+      .update({
+        last_location: location,
+      });
   }
   logout = () => {
     firebase
@@ -18,10 +27,14 @@ export default class TestLoc extends React.Component {
       .signOut()
       .then(() => {
         this.stop();
+        this.props.navigation.navigate("login");
       })
       .catch((error) => {
         // An error happened.
       });
+  };
+  test = () => {
+    console.log("test");
   };
   getLoctionServiceStat = async () => {
     const status = await Location.hasServicesEnabledAsync();
@@ -64,6 +77,7 @@ export default class TestLoc extends React.Component {
       <View style={{ margin: 50 }}>
         <Button title="Stop" onPress={this.stop} />
         <Button title="Logout" onPress={this.logout} />
+        <Button title="Test" onPress={this.test} />
       </View>
     );
   }
@@ -74,10 +88,9 @@ TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
     return;
   }
   if (data) {
-    const locations = data;
+    const locations = data.locations;
     var d = Date(locations.timestamp);
     console.log(d);
-
-    // console.log(locations);
+    TestLoc.updateLocation(locations);
   }
 });
