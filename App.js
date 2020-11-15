@@ -4,13 +4,16 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as firebase from "firebase";
-import BFetch from "./components/BackgroundLocationComp";
+// import BFetch from "./components/BackgroundLocationComp";
 import Login from "./components/LoginComp";
 import Register from "./components/RegisterComp";
 import Dashboard from "./components/DashboardComp";
 import Loading from "./components/LodingComp";
+// import GeofenceComp from "./components/GeofenceComp";
 import { firebaseConfig } from "./config";
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -25,9 +28,8 @@ export default function App() {
         <Stack.Screen name="dashboard" component={Dashboard} />
         <Stack.Screen name="loading" component={Loading} />
         <Stack.Screen name="backgroundlocation" component={BFetch} />
+        {/* <Stack.Screen name="geofence" component={GeofenceComp} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-
